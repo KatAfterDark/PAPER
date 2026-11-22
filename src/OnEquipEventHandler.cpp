@@ -24,9 +24,9 @@ RE::BSEventNotifyControl OnEquipEventHandler::ProcessEvent(const RE::TESEquipEve
         auto vm = RE::SkyrimVM::GetSingleton();
 
         if (vm) {
-            const auto handle = vm->handlePolicy.GetHandleForObject(static_cast<RE::VMTypeID>(actorFormType), actor);
+            const auto handle = vm->GetVMRuntimeData().handlePolicy.GetHandleForObject(static_cast<RE::VMTypeID>(actorFormType), actor);
 
-            if (handle && handle != vm->handlePolicy.EmptyHandle()) {
+            if (handle && handle != vm->GetVMRuntimeData().handlePolicy.EmptyHandle()) {
                 const auto equippedForm = RE::TESForm::LookupByID(a_event->baseObject);
                 auto equippedFormType = equippedForm->GetFormType();
 

@@ -108,9 +108,10 @@ namespace OnContainerChangedEvents {
             //auto& inventoryEventFilterMapLock = const_cast<RE::BSSpinLock&>(constInventoryEventFilterMapLock);
             //RE::BSSpinLockGuard locker(inventoryEventFilterMapLock);
 
-            const auto& inventoryEventFilterMap =
-                GetManualRelocateMemberVariable<RE::BSTHashMap<RE::VMHandle, RE::SkyrimVM::InventoryEventFilterLists*>>(
-                    vm, REL::VariantOffset(0x8948, 0x8948, 0x8968));
+            // 1.7.99+ shifted this map by 0x10 (0x8948 -> 0x8958). CommonLib's versioned accessor resolves the
+            // right address per runtime: base 0x760 (SE/AE<1.7.99), 0x770 (AE>=1.7.99), 0x780 (VR) + 0x81E8.
+            static_assert(offsetof(RE::SkyrimVM::RUNTIME_DATA2, InventoryEventFilterMap) == 0x81E8);
+            const auto& inventoryEventFilterMap = vm->GetRuntimeData2().InventoryEventFilterMap;
 
             RE::SkyrimVM::InventoryEventFilterLists* filterLists = nullptr;
             auto it = inventoryEventFilterMap.find(handle);

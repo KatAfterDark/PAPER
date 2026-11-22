@@ -68,10 +68,10 @@ void OnContainerChangedEventHandler::SendItemAddedEvents() {
                 auto newContainer = RE::TESForm::LookupByID<RE::TESObjectREFR>(entry.first);
 
                 if (newContainer) {
-                    const auto handle = vm->handlePolicy.GetHandleForObject(
+                    const auto handle = vm->GetVMRuntimeData().handlePolicy.GetHandleForObject(
                         static_cast<RE::VMTypeID>(RE::FormType::Reference), newContainer);
 
-                    if (handle && handle != vm->handlePolicy.EmptyHandle()) {
+                    if (handle && handle != vm->GetVMRuntimeData().handlePolicy.EmptyHandle()) {
                         std::vector<RE::TESForm*> baseItems;
                         std::vector<std::int32_t> itemCounts;
                         std::vector<RE::TESObjectREFR*> sourceContainers;
@@ -110,7 +110,7 @@ void OnContainerChangedEventHandler::SendItemRemovedEvents() {
                 auto oldContainer = RE::TESForm::LookupByID<RE::TESObjectREFR>(entry.first);
 
                 if (oldContainer) {
-                    const auto handle = vm->handlePolicy.GetHandleForObject(
+                    const auto handle = vm->GetVMRuntimeData().handlePolicy.GetHandleForObject(
                         static_cast<RE::VMTypeID>(RE::FormType::Reference), oldContainer);
 
                     std::vector<RE::TESForm*> baseItems;
